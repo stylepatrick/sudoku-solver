@@ -2,22 +2,17 @@ package sudoku;
 
 public class Sudoku {
 
-    private final int BOARD_SIZE = 9;
-    private final int[][] board;
+    private static final int BOARD_SIZE = 9;
 
-    public Sudoku(int[][] sudoku) {
-        board = sudoku;
-    }
-
-    public void solveSudoku() throws NotSolvableException {
+    public static int[][] solveSudoku(int[][] board) throws NotSolvableException {
         if (isSudokuSolvable(board)) {
-            printSolvedSudoku();
+            return board;
         } else {
             throw new NotSolvableException();
         }
     }
 
-    private void printSolvedSudoku() {
+    public static void printSolvedSudokuToConsole(int[][] board) {
         for (int i = 0; i < BOARD_SIZE; i++) {
             String line;
             for (int j = 0; j < BOARD_SIZE; j++) {
@@ -34,7 +29,7 @@ public class Sudoku {
         }
     }
 
-    private boolean isSudokuSolvable(int[][] board) {
+    private static boolean isSudokuSolvable(int[][] board) {
         for (int i = 0; i < BOARD_SIZE; i++) {
             for (int j = 0; j < BOARD_SIZE; j++) {
                 if (board[i][j] == 0) {
@@ -55,7 +50,7 @@ public class Sudoku {
         return true;
     }
 
-    private boolean isRowValid(int[][] board, int row, int number) {
+    private static boolean isRowValid(int[][] board, int row, int number) {
         for (int i = 0; i < BOARD_SIZE; i++) {
             if (board[row][i] == number) {
                 return false;
@@ -64,7 +59,7 @@ public class Sudoku {
         return true;
     }
 
-    private boolean isColumnValid(int[][] board, int column, int number) {
+    private static boolean isColumnValid(int[][] board, int column, int number) {
         for (int i = 0; i < BOARD_SIZE; i++) {
             if (board[i][column] == number) {
                 return false;
@@ -73,7 +68,7 @@ public class Sudoku {
         return true;
     }
 
-    private boolean isBoxValid(int[][] board, int row, int column, int number) {
+    private static boolean isBoxValid(int[][] board, int row, int column, int number) {
         int boxRow = row - row % 3;
         int boxColumn = column - column % 3;
         for (int i = boxRow; i < boxRow + 3; i++) {
@@ -86,7 +81,7 @@ public class Sudoku {
         return true;
     }
 
-    private boolean isValid(int[][] board, int row, int column, int number) {
+    private static boolean isValid(int[][] board, int row, int column, int number) {
         return isRowValid(board, row, number) && isColumnValid(board, column, number) && isBoxValid(board, row, column, number);
     }
 }

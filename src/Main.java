@@ -1,27 +1,21 @@
+import sudoku.FileService;
 import sudoku.NotSolvableException;
 import sudoku.Sudoku;
+import sudoku.WrongFileException;
 
 public class Main {
 
     public static void main(String[] args) {
-
-        int[][] board = {
-                {8, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 3, 6, 0, 0, 0, 0, 0},
-                {0, 7, 0, 0, 9, 0, 2, 0, 0},
-                {0, 5, 0, 0, 0, 7, 0, 0, 0},
-                {0, 0, 0, 0, 4, 5, 7, 0, 0},
-                {0, 0, 0, 1, 0, 0, 0, 3, 0},
-                {0, 0, 1, 0, 0, 0, 0, 6, 8},
-                {0, 0, 8, 5, 0, 0, 0, 1, 0},
-                {0, 9, 0, 0, 0, 0, 4, 0, 0}
-        };
-
-        try {
-            Sudoku sudoku = new Sudoku(board);
-            sudoku.solveSudoku();
-        } catch (NotSolvableException ignored) {
+        if (args.length > 0 && args[0] != null) {
+            try {
+                int[][] board = FileService.readFile(args[0]);
+                int[][] solvedBoard = Sudoku.solveSudoku(board);
+                Sudoku.printSolvedSudokuToConsole(solvedBoard);
+                FileService.writeFile(solvedBoard);
+            } catch (WrongFileException | NotSolvableException ignored) {
+            }
+        } else {
+            System.out.println("No argument for input file set!");
         }
-
     }
 }
